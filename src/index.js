@@ -1,9 +1,17 @@
 import express from 'express';
+import { model } from 'mongoose';
+
 
 import connectDB from "./config/db";
 
+//models
+import './model/User';
+
 //Routes
 import Auth from './routes/auth/auth.routes';
+
+
+
 
 const app = express();
 
