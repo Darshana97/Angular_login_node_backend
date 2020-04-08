@@ -4,6 +4,7 @@ import authBodyValidator from "../../middlewares/auth/authBodyValidators";
 import bcrypt from 'bcryptjs';
 import gravatar from 'gravatar';
 import { model } from "mongoose";
+import jwt from 'jsonwebtoken';
 
 const router = Router();
 
@@ -77,6 +78,26 @@ router.post("/login", authValidator, authBodyValidator, async (req, res) => {
             return res.status(400).json({ error: [{ msg: "Invalid Password" }] });
 
         }
+
+        const payLoad = {
+
+            // email:email
+            // email
+
+            email: user.email,
+            image: user.image,
+            _id: user._id
+
+        };
+
+        jwt.sign(payLoad, "jwtsecrect", { expiresIn: 60 * 60 * 24 }, (err, token) => {
+            if (err) {
+
+                return res.status(400).json({ error: [{ msg: "Something went to wrong Please try Again" }] });
+
+            }
+            return res.status(200).json(token);
+        });
 
 
     } catch (error) {
